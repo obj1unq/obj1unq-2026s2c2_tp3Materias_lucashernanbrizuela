@@ -1,0 +1,56 @@
+import estudiante.*
+import carreras.*
+import sistema.*
+import materias.*
+import notas.Nota
+
+
+
+
+
+const alex = new Estudiante()
+
+
+describe "Historia académica" {
+  method initialize() {
+    alex.inscribirseACarrera(programacion)
+    alex.inscribirseACarrera(tecnicaturaEnEconomíaSocialYSolidaria)
+    assert.equals(#{programacion,tecnicaturaEnEconomíaSocialYSolidaria}, alex.carrerasInscriptas())
+  }
+  test "Alex Historia Academica" {
+    sistema.estudianteFinalizoCursada(alex, 2, mate1)
+    sistema.estudianteFinalizoCursada(alex, 10, obj1)
+    sistema.estudianteFinalizoCursada(alex, 6, economía)
+    sistema.estudianteFinalizoCursada(alex, 8, trabajoYSociedad)
+    sistema.estudianteFinalizoCursada(alex, 8, mate1)
+    sistema.estudianteFinalizoCursada(alex, 2, basesDeDatos)
+    const nota1 = new Nota(estudiante = alex, notaDada = 2, materiaDada = mate1)
+    const nota2 = new Nota(estudiante = alex, notaDada = 8, materiaDada = mate1)
+
+    assert.throwsException({ sistema.estudianteFinalizoCursada(alex, 7, mate1) })
+    assert.throwsException({ sistema.estudianteFinalizoCursada(alex, 12, basesDeDatos) })
+
+    assert.equals(false, alex.AprobéLaMateria(basesDeDatos))
+    assert.equals(true, alex.AprobéLaMateria(mate1))
+
+    assert.equals(9, sistema.promedioDeMateriasAprobadasEnCarrera(alex,programacion))
+
+    assert.equals(2, sistema.cantMateriasAprobadasEnCarrera(alex,programacion))
+
+    assert.equals(7, sistema.promedioDeMateriasAprobadasEnCarrera(alex,tecnicaturaEnEconomíaSocialYSolidaria))
+
+    assert.throwsException({ sistema.promedioDeMateriasAprobadasEnCarrera(alex,terapiaOcupacional) })
+
+    alex.inscribirseACarrera(terapiaOcupacional)
+
+    assert.throwsException({ sistema.promedioDeMateriasAprobadasEnCarrera(alex,terapiaOcupacional) }) //OJO
+
+    assert.equals(8, sistema.promedioDeMateriasEnTodasLasCarreras(alex))
+
+    assert.equals(2, ((alex.todasLasCursadasDeMateria(mate1)).first()).notaDada() )
+    assert.equals(8, ((alex.todasLasCursadasDeMateria(mate1)).get(1)).notaDada() )
+
+
+  }
+}
+

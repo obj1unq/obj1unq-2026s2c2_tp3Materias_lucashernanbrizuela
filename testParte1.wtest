@@ -1,0 +1,34 @@
+import estudiante.*
+import carreras.*
+import materias.*
+
+
+
+
+const alex = new Estudiante()
+
+
+
+describe "Inscripción a carreras" {
+
+  test "Alex Quiere Inscribirse" {
+    alex.inscribirseACarrera(programacion)
+    alex.inscribirseACarrera(tecnicaturaEnEconomíaSocialYSolidaria)
+    assert.equals(#{programacion,tecnicaturaEnEconomíaSocialYSolidaria}, alex.carrerasInscriptas())
+  }
+
+  test "Esta IA materia?" {
+    alex.inscribirseACarrera(programacion)
+    alex.inscribirseACarrera(tecnicaturaEnEconomíaSocialYSolidaria)
+    assert.equals(true, alex.materiaSeEncuentraEnAlgunaCarrera(basesDeDatos))
+    assert.equals(false, alex.materiaSeEncuentraEnAlgunaCarrera(psicología))
+    assert.throwsException({ alex.inscribirseACarrera(programacion) }) //No puede Inscribirse si ya esta inscripto
+  }
+
+}
+
+
+/*
+
+
+*/

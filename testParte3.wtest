@@ -1,0 +1,66 @@
+import estudiante.*
+import carreras.*
+import sistema.*
+import materias.*
+
+
+const alex = new Estudiante()
+
+const andy = new Estudiante() 
+
+describe "Inscripciones a las materias" {
+  
+  method initialize() {
+    alex.inscribirseACarrera(programacion)
+    alex.inscribirseACarrera(tecnicaturaEnEconomíaSocialYSolidaria)
+    assert.equals(#{programacion,tecnicaturaEnEconomíaSocialYSolidaria}, alex.carrerasInscriptas())
+    sistema.estudianteFinalizoCursada(alex, 2, mate1)
+    sistema.estudianteFinalizoCursada(alex, 10, obj1)
+    sistema.estudianteFinalizoCursada(alex, 6, economía)
+    sistema.estudianteFinalizoCursada(alex, 8, trabajoYSociedad)
+    sistema.estudianteFinalizoCursada(alex, 8, mate1)
+    sistema.estudianteFinalizoCursada(alex, 2, basesDeDatos)
+
+    //obj2.requisitos(#{obj1, mate1})
+    obj2.agregarRequisito(new RequerimientoCorrelativas(materiasNecesarias = #{obj1, mate1}))
+
+    //obj3.requisitosNecesarios(new RequerimientoCorrelativas(materiasNecesarias = #{obj2, basesDeDatos}))
+    obj3.agregarRequisito(new RequerimientoCorrelativas(materiasNecesarias = #{obj2, basesDeDatos}))
+
+    //programacionConcurrente.requisitos(#{obj1, basesDeDatos})
+    programacionConcurrente.agregarRequisito(new RequerimientoCorrelativas(materiasNecesarias = #{obj1, basesDeDatos}))
+
+    //desarrolloLocal.requisitos(#{matemáticaSparaEconomíaYAdministración})
+    desarrolloLocal.agregarRequisito(new RequerimientoCorrelativas(materiasNecesarias = #{matemáticaSparaEconomíaYAdministración}))
+    andy.inscribirseACarrera(programacion)
+    //andy.inscribirseACarrera(terapiaOcupacional)
+    sistema.estudianteFinalizoCursada(andy, 10, obj1)
+    sistema.estudianteFinalizoCursada(andy, 10, mate1)
+    //sistema.estudianteFinalizoCursada(andy, 10, lecturaYEscrituraAcadémica)
+    //sistema.estudianteFinalizoCursada(andy, 10, cienciasDeLaSalud)
+
+  }
+  test "Inscripcion" {
+    assert.equals(true, sistema.validarInscribcionAMateriaDe(alex,obj2,programacion))
+    assert.equals(#{elementosDeProgramaciónYLógica, obj2, basesDeDatos}, sistema.materiasHabilitadasEnCarrera(programacion,alex))
+    //assert.equals(true, sistema.validarInscribcionAMateriaDe(alex,economía))
+    assert.equals(#{matemáticaSparaEconomíaYAdministración}, sistema.materiasHabilitadasEnCarrera(tecnicaturaEnEconomíaSocialYSolidaria,alex))
+    assert.equals(false, sistema.validarInscribcionAMateriaDe(alex,psicología,terapiaOcupacional))
+    assert.throwsException({ sistema.inscribirAEnMateria(alex,psicología,terapiaOcupacional) })
+    assert.equals(false, sistema.validarInscribcionAMateriaDe(alex,economía, tecnicaturaEnEconomíaSocialYSolidaria))
+    assert.throwsException({ sistema.inscribirAEnMateria(alex,economía,tecnicaturaEnEconomíaSocialYSolidaria) })
+    assert.equals(false, sistema.validarInscribcionAMateriaDe(alex,desarrolloLocal,tecnicaturaEnEconomíaSocialYSolidaria))
+    assert.throwsException({ sistema.inscribirAEnMateria(alex,desarrolloLocal,tecnicaturaEnEconomíaSocialYSolidaria) })
+    sistema.inscribirAEnMateria(alex, obj2,programacion)
+    assert.throwsException({ sistema.inscribirAEnMateria(alex,obj2,programacion) })
+    sistema.inscribirAEnMateria(andy, obj2,programacion)
+    assert.equals(#{alex,andy}, obj2.listaDeEstudiantes())
+  }
+}
+
+/*
+
+
+Verificar que las personas estudiantes inscriptas en Obj2 son Alex y Andy
+
+*/
