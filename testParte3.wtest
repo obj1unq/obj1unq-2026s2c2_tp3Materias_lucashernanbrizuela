@@ -4,9 +4,6 @@ import sistema.*
 import materias.*
 
 
-const alex = new Estudiante()
-
-const andy = new Estudiante() 
 
 describe "Inscripciones a las materias" {
   

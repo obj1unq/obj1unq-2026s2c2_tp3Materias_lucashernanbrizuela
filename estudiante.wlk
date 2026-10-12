@@ -90,9 +90,10 @@ class Estudiante {
 
   method aproboTodasLasMateriasDeAño(año,carrera) {
     return carrera.materiasDeAño(año).all({materia => self.materiasAprobadas().contains(materia)})
-  }
-
-
-
-  
+  } 
 }
+
+
+const alex = new Estudiante()
+
+const andy = new Estudiante() 

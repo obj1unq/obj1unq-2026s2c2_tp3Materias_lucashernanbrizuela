@@ -5,8 +5,6 @@ import materias.*
 
 
 
-const alex = new Estudiante()
-
 
 
 describe "Inscripción a carreras" {

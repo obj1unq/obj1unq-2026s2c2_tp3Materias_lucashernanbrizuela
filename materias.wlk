@@ -1,4 +1,4 @@
-import estudiante.Estudiante
+import estudiante.*
 import carreras.*
 
 

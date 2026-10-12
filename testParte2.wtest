@@ -8,7 +8,7 @@ import notas.Nota
 
 
 
-const alex = new Estudiante()
+
 
 
 describe "Historia académica" {

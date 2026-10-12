@@ -1,7 +1,9 @@
+// sistema.wlk
 import estudiante.*
 import notas.*
+import carreras.*
+import materias.*
 
-import carreras.Carrera
 
 object sistema {
     
