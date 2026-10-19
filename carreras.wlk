@@ -11,7 +11,14 @@ class Carrera {
     return materias.filter({materia => materia.año() == año})
   }
 
+  method materiasHabilidatasEnCarrera(estudiante) {
+    materias.filter({materia => estudiante.validarInscripcionAMateriaDe(materia,self)})
+  }
+
 }
+
+
+
 
 
 const programacion = new Carrera(materias = #{

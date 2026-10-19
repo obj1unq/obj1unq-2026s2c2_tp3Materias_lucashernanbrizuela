@@ -90,8 +90,51 @@ class Estudiante {
 
   method aproboTodasLasMateriasDeAño(año,carrera) {
     return carrera.materiasDeAño(año).all({materia => self.materiasAprobadas().contains(materia)})
-  } 
+  }
+
+  method finalizeLaCursada(nota,materia) {
+    self.validarFinalizacion(nota, materia)
+    self.agregarNota(new Cursada(estudiante = self, notaDada = nota, materiaDada = materia) )
+  }
+
+  method validarFinalizacion(nota, materia) {
+    if(self.AprobéLaMateria(materia) || not self.materiaSeEncuentraEnAlgunaCarrera(materia) || nota < 1 || nota > 10 ){
+      self.error("No es valido la finalizacion de cursada")
+    }
+  }
+
+  method cantMateriasAprobadasEnCarrera(carrera) {
+    return self.notasAprobadasEnCarrera(carrera).size()
+  }
+
+  method promedioDeMateriasAprobadasEnCarrera(carrera) {
+    self.validarCarreraParaEstudiante(carrera)
+    return (self.notasAprobadasEnCarrera(carrera)).sum({nota => nota.notaDada() }) / self.cantMateriasAprobadasEnCarrera(carrera) 
+  }
+
+  method promedioDeMateriasEnTodasLasCarreras(estudiante) {
+    return estudiante.notasAprobadas().sum({nota => nota.notaDada()}) / estudiante.cantMateriasAprobadas()
+  }
+
+  method validarCarreraParaEstudiante(carrera) {
+    if(not self.esUnaCarreraQueCurso(carrera)){
+      self.error("No estoy inscripto")
+    }
+  }
+
+
+
+
+
 }
+
+/*
+    method validarCarreraParaEstudiante(estudiante,carrera) {
+      if (not estudiante.esUnaCarreraQueCurso(carrera)){
+        self.error("NO ESTOY INSCIPTO")
+      }
+    }
+*/
 
 
 const alex = new Estudiante()

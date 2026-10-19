@@ -1,4 +1,4 @@
-class Nota {
+class Cursada {
   const estudiante
   const notaDada
   const property materiaDada
