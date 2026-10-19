@@ -1,0 +1,76 @@
+import estudiante.*
+import carreras.*
+import sistema.*
+import materias.*
+
+
+
+
+describe "Inscripciones a las materias" {
+  
+  method initialize() {
+    alex.inscribirseACarrera(programacion)
+    alex.inscribirseACarrera(tecnicaturaEnEconomíaSocialYSolidaria)
+    assert.equals(#{programacion,tecnicaturaEnEconomíaSocialYSolidaria}, alex.carrerasInscriptas())
+    sistema.estudianteFinalizoCursada(alex, 2, mate1)
+    sistema.estudianteFinalizoCursada(alex, 10, obj1)
+    sistema.estudianteFinalizoCursada(alex, 6, economía)
+    sistema.estudianteFinalizoCursada(alex, 8, trabajoYSociedad)
+    sistema.estudianteFinalizoCursada(alex, 8, mate1)
+    sistema.estudianteFinalizoCursada(alex, 2, basesDeDatos)
+
+    obj2.agregarRequisito(new RequerimientoCorrelativas(materiasNecesarias = #{obj1, mate1}))
+
+   
+    obj3.agregarRequisito(new RequerimientoCorrelativas(materiasNecesarias = #{obj2, basesDeDatos}))
+
+  
+    programacionConcurrente.agregarRequisito(new RequerimientoCorrelativas(materiasNecesarias = #{obj1, basesDeDatos}))
+
+   
+    desarrolloLocal.agregarRequisito(new RequerimientoCorrelativas(materiasNecesarias = #{matemáticaSparaEconomíaYAdministración}))
+    andy.inscribirseACarrera(programacion)
+    sistema.estudianteFinalizoCursada(andy, 10, obj1)
+    sistema.estudianteFinalizoCursada(andy, 10, mate1)
+
+
+  }
+
+  test "Inicial" {
+    andy.inscribirseACarrera(terapiaOcupacional)
+    assert.equals(#{lecturaYEscrituraAcadémica, cienciasDeLaSalud}, sistema.materiasHabilitadasEnCarrera(terapiaOcupacional,andy))
+    sistema.estudianteFinalizoCursada(andy, 10, lecturaYEscrituraAcadémica)
+    assert.equals(8, andy.cantidadDeCreditos(terapiaOcupacional))
+    assert.equals(#{antropología, cienciasDeLaSalud}, sistema.materiasHabilitadasEnCarrera(terapiaOcupacional,andy))
+    sistema.estudianteFinalizoCursada(andy, 10, antropología)
+    assert.equals(12, andy.cantidadDeCreditos(terapiaOcupacional))
+    assert.equals(#{sociología, cienciasDeLaSalud}, sistema.materiasHabilitadasEnCarrera(terapiaOcupacional,andy))
+    sistema.estudianteFinalizoCursada(andy, 10, cienciasDeLaSalud)
+    assert.equals(20, andy.cantidadDeCreditos(terapiaOcupacional))
+
+    assert.equals(true, andy.aproboTodasLasMateriasDeAño(1,terapiaOcupacional))
+    assert.equals(#{sociología,psicología}, sistema.materiasHabilitadasEnCarrera(terapiaOcupacional,andy))
+    sistema.inscribirAEnMateria(andy, sociología, terapiaOcupacional)
+    sistema.inscribirAEnMateria(andy, psicología, terapiaOcupacional)
+
+    assert.equals(#{andy}, psicología.listaDeEstudiantes())
+    assert.equals(#{andy}, sociología.listaDeEstudiantes()) 
+
+  }
+
+/*
+
+- verificar que las únicas materias a las que se puede inscribir Andy en TO son Ciencias de la Salud y
+ Sociología
+- registrar que Andy cursó Ciencias de la Salud con nota 10, (Andy tiene 20 créditos en TO, ya aprobó primer año de TO)
+- verificar que las únicas materias a las que puede inscribir Andy en TO son Psicología y Sociología
+- inscribir a Andy a Psicología
+- inscribir a Andy a Sociología
+- verificar que la lista de estudiantes inscriptos a Psicología está compuesta solo por Andy
+- verificar que la lista de estudiantes de Sociología está compuesta solo por Andy
+
+*/
+
+
+
+}
